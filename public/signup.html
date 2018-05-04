@@ -11,13 +11,13 @@
   <div class="col-md-10 mx-auto">
     <div class="form-row">
       <div class="col-md-12 mb-2 mb-md-0 marginAuto">
-        <input type="email" class="form-control form-control-lg" placeholder="Username">
-        <input type="password" class="form-control form-control-lg" placeholder="Password">
+        <input type="email" class="form-control form-control-lg" ng-model='signinusername' placeholder="Username">
+        <input type="password" class="form-control form-control-lg" ng-model='signuppassword' placeholder="Password">
       </div>
     </div>
     <div class="form-row">
       <div class="col-md-12 marginAuto">
-        <button class="btn btn-block btn-lg btn-primary" style="margin-top:10px;" href="#/home">Sign in!</button>
+        <a class="btn btn-block btn-lg btn-primary" style="margin-top:10px;" ng-click="signin()" href="#!home">Sign in!</a>
       </div>
     </div>
   </div>
@@ -26,18 +26,16 @@
   <div class="col-md-10 mx-auto">
     <div class="form-row">
       <div class="col-md-12 mb-2 mb-md-0 marginAuto">
-        <input type="email" class="form-control form-control-lg" placeholder="Email">
-        <input type="email" class="form-control form-control-lg" placeholder="Username">
-        <input type="email" class="form-control form-control-lg" placeholder="Password">
+        <input type="text" class="form-control form-control-lg" ng-model='username' placeholder="Username">
+        <input type="password" class="form-control form-control-lg" ng-model='password' placeholder="Password">
       </div>
     </div>
     <div class="form-row">
       <div class="col-md-12 marginAuto">
-        <button class="btn btn-block btn-lg btn-primary" style="margin-top:10px;">Sign up!</button>
+        <a class="btn btn-block btn-lg btn-primary" style="margin-top:10px;" ng-click="submitSignup()">Sign up!</a>
       </div>
     </div>
   </div>
 
 </div>
 </div>
-<a class="btn btn-block btn-lg btn-primary" style="margin-top:10px;" href="#/home">Sign in!</a>
