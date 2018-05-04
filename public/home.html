@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="input-group">
+     <input type="text" class="form-control" placeholder="post a new meow..." ng-model="newMeow">
+     <span class="input-group-btn">
+          <button class="btn btn-primary btn-md" type="button" ng-click="submitNewMeow()">Post</button>
+     </span>
+  </div>
+  <ul class="list-group meows-list marginAuto">
+    <li class="list-group-item" ng-repeat="meow in meows">
+      <i class="fa fa-user" style="margin-right:20px;"></i>{{meow.text}}
+      <i class="fa fa-times removeIcon" style="position:absolute; right:20px;" ng-click="removeMeow(meow)"></i>
+    </li>
+  </ul>
+</div>

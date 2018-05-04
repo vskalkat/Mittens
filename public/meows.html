@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="mittens">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Mittens</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--AngularJS-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+    <!-- Custom fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles-->
+    <link href="css/landing-page.css" rel="stylesheet">
+
+    <script>
+    var app = angular.module('mittens', []);
+
+    app.controller('MittensCtrl', function($scope, $http){
+
+      $scope.submitNewMeow = function(){
+        $http.post('/meows', {newMeow:$scope.newMeow}).then(function(){
+          getMeows();
+          $scope.newMeow = '';
+        });
+      };
+
+      $scope.removeMeow = function(meow){
+        $http.put('/meows/remove', {meow: meow}).then(function(){
+          getMeows();
+        });
+      };
+
+      function getMeows(){
+        $http.get('/meows').then(function(response){
+          $scope.meows = response.data;
+        });
+      };
+
+      getMeows();
+
+    });
+    </script>
+
+  </head>
+
+  <body ng-controller="MittensCtrl">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-light bg-light static-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Mittens</a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="input-group">
+         <input type="text" class="form-control" placeholder="post a new meow..." ng-model="newMeow">
+         <span class="input-group-btn">
+              <button class="btn btn-primary btn-md" type="button" ng-click="submitNewMeow()">Post</button>
+         </span>
+      </div>
+      <ul class="list-group meows-list marginAuto">
+        <li class="list-group-item" ng-repeat="meow in meows">
+          <i class="fa fa-user" style="margin-right:20px;"></i>{{meow.text}}
+          <i class="fa fa-times removeIcon" style="position:absolute; right:20px;" ng-click="removeMeow(meow)"></i>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  </body>
+
+</html>
