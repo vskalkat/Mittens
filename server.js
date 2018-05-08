@@ -3,8 +3,11 @@ var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
 var bcrypt = require('bcrypt');
+var jwt = require('jwt-simple');
 
 var app = express();
+
+const JWT_SECRET = 'catsmeow';
 
 var db = null;
 MongoClient.connect("mongodb://localhost:27017/mittens", function(err, dbconn){
@@ -68,15 +71,23 @@ app.post('/users', function(req, res){
 });
 
 app.put('/users/signin', function(req, res){
+  console.log(req.body);
   db.collection('users', function(err, usersCollection){
     usersCollection.findOne({username: req.body.username}, function(err, user){
-      bcrypt.compare(req.body.password, user.password, function(err, result) {
-        if(result){
-          return res.send();
-        }else {
-          return res.status(400).send();
-        }
-      });
+      console.log("user: " + user);
+      if(user){
+        bcrypt.compare(req.body.password, user.password, function(err, result) {
+          if(result){
+            //var token = jwt.encode(payload, secret);
+            var token = jwt.encode(user, JWT_SECRET);
+            return res.json({token: token});
+          }else {
+            return res.status(400).send();
+          }
+        });
+      } else {
+        return res.status(400).send();
+      }
     });
   });
 });

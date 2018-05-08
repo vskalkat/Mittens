@@ -16,6 +16,7 @@
     <!--AngularJS-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-cookies.js"></script>
 
     <!-- Custom fonts -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -26,7 +27,7 @@
     <link href="css/landing-page.css" rel="stylesheet">
 
     <script>
-    var app = angular.module('mittens', ['ngRoute']);
+    var app = angular.module('mittens', ['ngRoute', 'ngCookies']);
     app.config(function($routeProvider) {
       $routeProvider
       .when("/", {
@@ -39,9 +40,20 @@
       });
     });
 
-    app.controller('MittensCtrl', function($scope, $http){
+    app.run(function($rootScope, $cookies){
+      if($cookies.get('token') && $cookies.get('currentUser')){
+        $rootScope.token = $cookies.get('token');
+        $rootScope.token = $cookies.get('currentUser');
+      }
+    });
+
+    app.controller('MittensCtrl', function($rootScope, $scope, $http, $cookies){
       $scope.submitNewMeow = function(){
-        $http.post('/meows', {newMeow:$scope.newMeow}).then(function(){
+        $http.post('/meows',
+        {newMeow:$scope.newMeow},
+        {headers:{
+          'authorization': $rootScope.token
+        }}).then(function(){
           getMeows();
           $scope.newMeow = '';
         });
@@ -60,9 +72,17 @@
       };
 
       getMeows();
+
+      $scope.logout = function(){
+        $cookies.remove('token');
+        $cookies.remove('currentUser');
+        $rootScope.token = null;
+        $rootScope.currentUser = null;
+        window.location.href = "/";
+      }
     });
 
-    app.controller('SignupController', function($scope, $http){
+    app.controller('SignupController', function($rootScope, $scope, $http, $cookies){
       $scope.submitSignup = function(){
         var newUser = {
           username : $scope.username,
@@ -78,16 +98,19 @@
           username : $scope.signinusername,
           password : $scope.signinpassword
         }
-        $http.put('/users/signin', user).then(function(response){
+        $http.put('/users/signin', user).then(function(res){
           alert('Successfully signed in.');
+          $cookies.put('token', res.data.token);
+          $cookies.put('currentUser', $scope.signinusername);
+          $rootScope.token = res.data.token;
+          $rootScope.currentUser = user.username;
+          window.location.href = "#!home";
         }, function(err){
           alert('Incorrect login credentials.');
         });
       }
 
-
     });
-
 
 
     </script>

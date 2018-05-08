@@ -1,5 +1,9 @@
+<div class="container" ng-show="currentUser">
+  <h4 class="greetingMsg">Hello, {{currentUser}}</h4>
+  <a ng-click="logout()">Logout</a></li>
+</div>
 <div class="container">
-  <div class="input-group">
+  <div class="input-group" ng-show="currentUser">
      <input type="text" class="form-control" placeholder="post a new meow..." ng-model="newMeow">
      <span class="input-group-btn">
           <button class="btn btn-primary btn-md" type="button" ng-click="submitNewMeow()">Post</button>
