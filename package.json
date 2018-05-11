@@ -1,0 +1,27 @@
+{
+  "name": "vikkalkat-mittens",
+  "version": "1.0.0",
+  "description": "twitter clone web app themed for cats",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vskalkat/Mittens.git"
+  },
+  "author": "Vik Kalkat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vskalkat/Mittens/issues"
+  },
+  "homepage": "https://github.com/vskalkat/Mittens#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "jwt-simple": "^0.5.1",
+    "mongodb": "^3.1.0-beta4"
+  }
+}
