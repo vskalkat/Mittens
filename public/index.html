@@ -60,7 +60,9 @@
       };
 
       $scope.removeMeow = function(meow){
-        $http.put('/meows/remove', {meow: meow}).then(function(){
+        $http.put('/meows/remove', {meow: meow}, {headers: {
+          'authorization': $rootScope.token
+        }}).then(function(){
           getMeows();
         });
       };

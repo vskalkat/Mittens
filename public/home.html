@@ -1,6 +1,6 @@
 <div class="container" ng-show="currentUser">
   <h4 class="greetingMsg">Hello, {{currentUser}}</h4>
-  <a ng-click="logout()">Logout</a></li>
+  <a href ng-click="logout()">Logout</a></li>
 </div>
 <div class="container">
   <div class="input-group" ng-show="currentUser">
@@ -11,8 +11,11 @@
   </div>
   <ul class="list-group meows-list marginAuto">
     <li class="list-group-item" ng-repeat="meow in meows">
-      <i class="fa fa-user" style="margin-right:20px;"></i>{{meow.text}}
+      <small>{{meow.username}}</small>
+      <br>
+      {{meow.text}}
       <i class="fa fa-times removeIcon" style="position:absolute; right:20px;" ng-click="removeMeow(meow)"></i>
+      <br>
     </li>
   </ul>
 </div>

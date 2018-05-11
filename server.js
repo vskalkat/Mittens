@@ -37,8 +37,18 @@ app.get('/meows', function(req, res){
 });
 
 app.post('/meows', function(req, res){
+  var token = req.headers.authorization;
+  //recall, when we created the token, we encoded the USER. Now, decoding the token gives us back that user.
+  var user = jwt.decode(token, JWT_SECRET);
   var text = req.body.newMeow;
-  db.collection("meows").insert({text}, {w:1}, function(err) {
+
+  var newMeow = {
+    text: req.body.newMeow,
+    user: user._id,
+    username: user.username
+  };
+
+  db.collection("meows").insert(newMeow, {w:1}, function(err) {
     if (!err){
       return res.send();
     }
@@ -46,7 +56,11 @@ app.post('/meows', function(req, res){
 });
 
 app.put('/meows/remove', function(req, res){
-  var removequery = { _id: new ObjectID(req.body.meow._id)};
+  var token = req.headers.authorization;
+  //recall, when we created the token, we encoded the USER. Now, decoding the token gives us back that user.
+  var user = jwt.decode(token, JWT_SECRET);
+
+  var removequery = { _id: new ObjectID(req.body.meow._id), user: user._id};
   db.collection("meows").deleteOne(removequery, function(err) {
     if (!err){
       return res.send();
